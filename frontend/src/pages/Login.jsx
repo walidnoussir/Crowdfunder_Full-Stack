@@ -17,15 +17,13 @@ const Login = () => {
     e.preventDefault();
     dispatch(loginUser(formData)).then((result) => {
       if (!result.error) {
-        navigate('/'); // Rediriger vers le Dashboard après succès
+        navigate('/home'); // Rediriger vers le Dashboard après succès
       }
     });
   };
 
   return (
-    <div className="min-h-screen bg-neutral-900 flex flex-col justify-center items-center p-4">
-      <span className="text-gray-500 self-start mb-4 ml-4 text-sm font-semibold">Login</span>
-      
+    <div className="min-h-screen bg-neutral-900 flex flex-col justify-center items-center p-4">      
       <div className="bg-white w-full max-w-sm rounded-[32px] p-8 shadow-xl flex flex-col items-center">
         <h2 className="text-3xl font-bold text-black mb-8">Connexion</h2>
         
@@ -52,7 +50,7 @@ const Login = () => {
               value={formData.password}
               onChange={handleChange}
               required
-              className="w-full h-12 bg-brand-grayBg rounded-2xl px-4 outline-none border-none focus:ring-2 focus:ring-brand-green/50 transition"
+              className="w-full h-12 bg-gray-200 rounded-2xl px-4 outline-none border-none focus:ring-2 focus:ring-brand-green/50 transition"
             />
           </div>
 
