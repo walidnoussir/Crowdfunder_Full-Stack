@@ -1,0 +1,11 @@
+@import "tailwindcss";
+
+@layer components {
+  .active {
+    @apply text-white;
+  }
+
+  .link {
+    @apply flex items-center gap-2;
+  }
+}
