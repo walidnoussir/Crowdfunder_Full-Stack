@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
-// Simuler l'URL de l'API backend existante (bdelha bl-URL dyal l-backend dyalkom)
-const API_URL = 'https://api.votre-backend.com'; 
+const API_URL = import.meta.env.VITE_API_URL;
 
 // 1. Thunk pour le Login
 export const loginUser = createAsyncThunk(
