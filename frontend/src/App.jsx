@@ -7,6 +7,7 @@ import AppLayout from "./components/layouts/AppLayout";
 import Dashboard from "./pages/Dashboard";
 import Projects from "./pages/Projects";
 import CreateProject from "./pages/CreateProject";
+import Profile from "./pages/Profile";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
           >
             <Route index element={<Dashboard />} />
             <Route path="projects" element={<Projects />} />
+            <Route path="me" element={<Profile />} />
             <Route path="create-project" element={<CreateProject />} />
           </Route>
         </Route>
