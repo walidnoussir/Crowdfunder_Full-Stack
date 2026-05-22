@@ -1,10 +1,15 @@
-const Project = require('../models/Project');
-
+const Project = require("../models/Project");
 
 exports.createProject = async (req, res) => {
   try {
-    const { title, description, targetCapital, initialInvestment, maxPercentage } = req.body;
-    
+    const {
+      title,
+      description,
+      targetCapital,
+      initialInvestment,
+      maxPercentage,
+    } = req.body;
+
     const newProject = await Project.create({
       title,
       description,
@@ -12,7 +17,7 @@ exports.createProject = async (req, res) => {
       currentCapital: initialInvestment || 0,
       maxInvestmentPercentage: maxPercentage || 50,
       owner: req.user.id,
-      status: 'open'
+      status: "open",
     });
 
     res.status(201).json(newProject);
@@ -28,11 +33,17 @@ exports.getMyProjects = async (req, res) => {
 // MODIFIER UN PROJET (Avant fermeture)
 exports.updateProject = async (req, res) => {
   try {
-    const project = await Project.findOne({ _id: req.params.id, owner: req.user.id });
+    const project = await Project.findOne({
+      _id: req.params.id,
+      owner: req.user.id,
+    });
     if (!project) return res.status(404).json({ message: "Projet non trouvé" });
-    if (project.status === 'closed') return res.status(400).json({ message: "Projet déjà fermé" });
+    if (project.status === "closed")
+      return res.status(400).json({ message: "Projet déjà fermé" });
 
-    const updated = await Project.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    const updated = await Project.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+    });
     res.json(updated);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -54,9 +65,26 @@ exports.closeProject = async (req, res) => {
   try {
     const project = await Project.findOneAndUpdate(
       { _id: req.params.id, owner: req.user.id },
-      { status: 'closed' },
-      { new: true }
+      { status: "closed" },
+      { new: true },
     );
+    res.json(project);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+exports.getProjectById = async (req, res) => {
+  try {
+    const project = await Project.findOne({
+      _id: req.params.id,
+      owner: req.user.id,
+    });
+
+    if (!project) {
+      return res.status(404).json({ message: "Projet non trouvé" });
+    }
+
     res.json(project);
   } catch (error) {
     res.status(500).json({ error: error.message });
