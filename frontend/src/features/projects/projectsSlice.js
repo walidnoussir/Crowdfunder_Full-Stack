@@ -81,6 +81,27 @@ export const closeProject = createAsyncThunk(
   },
 );
 
+export const updateProject = createAsyncThunk(
+  "projects/update",
+  async ({ id, projectData }, { rejectWithValue }) => {
+    try {
+      const token = localStorage.getItem("token");
+
+      const response = await axios.put(
+        `${API_URL}/projects/${id}`,
+        projectData,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        },
+      );
+
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.message || error.message);
+    }
+  },
+);
+
 const initialState = {
   myProjects: [],
   currentProject: null,
@@ -141,6 +162,18 @@ const projectsSlice = createSlice({
         state.currentProject = action.payload;
       })
       .addCase(closeProject.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
+      .addCase(updateProject.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(updateProject.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.currentProject = action.payload;
+      })
+      .addCase(updateProject.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
       });
