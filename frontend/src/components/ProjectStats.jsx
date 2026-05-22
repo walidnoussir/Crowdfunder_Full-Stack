@@ -1,17 +1,28 @@
 import CircularProgress from "./ui/CircularProgress";
 
 function ProjectStats({ project }) {
-  const percentage = project.targetCapital
+  const percentage = project.targetAmount
     ? Math.min(
-        Math.round((project.currentCapital / project.targetCapital) * 100),
+        Math.round(
+          (project.initialInvestment / project.targetAmount) * 100
+        ),
         100,
       )
     : 0;
 
   const stats = [
-    { label: "Cible", value: `${project.targetCapital?.toLocaleString()}$` },
-    { label: "Atteint", value: `${project.currentCapital?.toLocaleString()}$` },
-    { label: "Investisseurs", value: project.investors?.length ?? 0 },
+    {
+      label: "Cible",
+      value: `${project.targetAmount?.toLocaleString() || 0}$`,
+    },
+    {
+      label: "Atteint",
+      value: `${project.initialInvestment?.toLocaleString() || 0}$`,
+    },
+    {
+      label: "Investisseurs",
+      value: project.investors?.length ?? 0,
+    },
   ];
 
   return (
@@ -34,6 +45,7 @@ function ProjectStats({ project }) {
             >
               {label}:
             </span>
+
             <span
               className="text-sm font-semibold"
               style={{ color: "var(--color-text)" }}

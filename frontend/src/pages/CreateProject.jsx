@@ -22,6 +22,7 @@ function CreateProject() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     const result = await dispatch(createProject(formData));
     if (createProject.fulfilled.match(result)) {
       navigate("/home/projects");

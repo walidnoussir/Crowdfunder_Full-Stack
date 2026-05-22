@@ -46,10 +46,12 @@ function Dashboard() {
   const ouverts = myProjects.filter((p) => p.status === "open").length;
   const fermes = myProjects.filter((p) => p.status === "closed").length;
   const capitalTotal = myProjects.reduce(
-    (sum, p) => sum + (p.currentInvestment || p.capitalInvested || 0),
+    (sum, p) => sum +
+      Number(p.initialInvestment || 0) +
+      Number(p.targetAmount || 0),
     0
   );
-
+  
   return (
     <div style={{ padding: "32px 40px" }}>
       <h1 style={{ fontSize: "28px", fontWeight: "700", marginBottom: "8px" }}>
