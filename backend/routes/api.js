@@ -25,6 +25,8 @@ router.get(
   projectCtrl.getMyProjects,
 );
 
+router.get("/projects/:id", protect, projectCtrl.getProjectById);
+
 // ROUTES INVESTISSEURS
 router.get(
   "/open-projects",

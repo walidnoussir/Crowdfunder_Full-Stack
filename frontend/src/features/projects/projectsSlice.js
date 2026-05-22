@@ -41,8 +41,49 @@ export const createProject = createAsyncThunk(
   },
 );
 
+export const getProjectById = createAsyncThunk(
+  "/projects/project-id",
+  async (id, { rejectWithValue }) => {
+    try {
+      const token = localStorage.getItem("token");
+
+      const response = await axios.get(`${API_URL}/projects/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  },
+);
+
+export const closeProject = createAsyncThunk(
+  "projects/closeProject",
+  async (id, { rejectWithValue }) => {
+    try {
+      const token = localStorage.getItem("token");
+
+      const response = await axios.patch(
+        `${API_URL}/projects/${id}/close`,
+        {},
+
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        },
+      );
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.message || error.message);
+    }
+  },
+);
+
 const initialState = {
   myProjects: [],
+  currentProject: null,
   isLoading: false,
   error: null,
 };
@@ -77,6 +118,30 @@ const projectsSlice = createSlice({
       })
       .addCase(createProject.rejected, (state, action) => {
         state.isLoading = true;
+        state.error = action.payload;
+      })
+      .addCase(getProjectById.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(getProjectById.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.currentProject = action.payload;
+      })
+      .addCase(getProjectById.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
+      .addCase(closeProject.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(closeProject.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.currentProject = action.payload;
+      })
+      .addCase(closeProject.rejected, (state, action) => {
+        state.isLoading = false;
         state.error = action.payload;
       });
   },
