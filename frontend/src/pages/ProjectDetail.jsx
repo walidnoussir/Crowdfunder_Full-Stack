@@ -5,6 +5,7 @@ import { getProjectById } from "../features/projects/projectsSlice";
 import Spinner from "../components/ui/Spinner";
 import ProjectStats from "../components/ProjectStats";
 import ProjectActions from "../components/ProjectActions";
+import Back from "../components/ui/Back";
 
 function ProjectDetail() {
   const { currentProject: project, isLoading } = useSelector(
@@ -28,6 +29,7 @@ function ProjectDetail() {
       className="min-h-screen p-6"
       style={{ backgroundColor: "var(--color-background)" }}
     >
+      <Back />
       <div
         className="w-full max-w-xl mx-auto p-8 shadow-sm"
         style={{

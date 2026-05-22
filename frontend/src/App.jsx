@@ -9,6 +9,7 @@ import Projects from "./pages/Projects";
 import CreateProject from "./pages/CreateProject";
 import Profile from "./pages/Profile";
 import ProjectDetail from "./pages/ProjectDetail";
+import UpdateProject from "./pages/UpdateProject";
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
             <Route path="me" element={<Profile />} />
             <Route path="create-project" element={<CreateProject />} />
             <Route path="projects/:id" element={<ProjectDetail />} />
+            <Route path="projects/:id/edit" element={<UpdateProject />} />
           </Route>
         </Route>
       </Routes>
