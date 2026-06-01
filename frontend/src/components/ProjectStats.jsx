@@ -9,10 +9,11 @@ function ProjectStats({ project }) {
     : 0;
 
   const stats = [
-    { label: "Cible", value: `${project.targetCapital?.toLocaleString()}$` },
     { label: "Atteint", value: `${project.currentCapital?.toLocaleString()}$` },
     { label: "Investisseurs", value: project.investors?.length ?? 0 },
   ];
+
+  console.log(project);
 
   return (
     <div

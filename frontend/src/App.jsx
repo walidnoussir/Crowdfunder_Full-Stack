@@ -31,7 +31,14 @@ function App() {
             <Route index element={<Dashboard />} />
             <Route path="projects" element={<Projects />} />
             <Route path="me" element={<Profile />} />
-            <Route path="create-project" element={<CreateProject />} />
+            <Route
+              path="create-project"
+              element={
+                <ProtectedRoute role="owner">
+                  <CreateProject />
+                </ProtectedRoute>
+              }
+            />
             <Route path="projects/:id" element={<ProjectDetail />} />
             <Route path="projects/:id/edit" element={<UpdateProject />} />
           </Route>
