@@ -30,6 +30,11 @@ exports.getMyProjects = async (req, res) => {
   const projects = await Project.find({ owner: req.user.id });
   res.json(projects);
 };
+
+exports.getOpenProjects = async (req, res) => {
+  const projects = await Project.find({ status: "open" });
+  res.json(projects);
+};
 // MODIFIER UN PROJET (Avant fermeture)
 exports.updateProject = async (req, res) => {
   try {
@@ -78,7 +83,7 @@ exports.getProjectById = async (req, res) => {
   try {
     const project = await Project.findOne({
       _id: req.params.id,
-      owner: req.user.id,
+      // owner: req.user.id,
     });
 
     if (!project) {

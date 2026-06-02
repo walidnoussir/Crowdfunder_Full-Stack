@@ -20,8 +20,6 @@ function ProjectDetail() {
 
   if (isLoading || !project) return <Spinner />;
 
-  console.log(project);
-
   const isOpen = project.status === "open";
 
   return (

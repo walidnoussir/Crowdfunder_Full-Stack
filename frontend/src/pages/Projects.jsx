@@ -1,27 +1,45 @@
 import { useDispatch, useSelector } from "react-redux";
 import Spinner from "../components/ui/Spinner";
 import { useEffect } from "react";
-import { getMyProjects } from "../features/projects/projectsSlice";
+import {
+  getMyProjects,
+  getOpenProjects,
+} from "../features/projects/projectsSlice";
 import ProjectCard from "../components/ProjectCard";
 import { useNavigate } from "react-router-dom";
+import { getMe } from "../features/auth/authSlice";
 
 function Projects() {
-  const {
-    myProjects: projects,
-    isLoading,
-    error,
-  } = useSelector((state) => state.projects);
+  const { user } = useSelector((state) => state.auth);
+  console.log(user);
+
+  const { myProjects, openProjects, isLoading, error } = useSelector(
+    (state) => state.projects,
+  );
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   useEffect(() => {
-    dispatch(getMyProjects());
-  }, []);
+    dispatch(getMe());
+
+    user?.role === "owner"
+      ? dispatch(getMyProjects())
+      : user?.role === "investor"
+        ? dispatch(getOpenProjects())
+        : null;
+  }, [dispatch, user?.role]);
 
   if (isLoading) return <Spinner />;
+
+  const projects =
+    user?.role === "owner"
+      ? myProjects
+      : user?.role === "investor"
+        ? openProjects
+        : [];
+
   console.log(projects);
-  console.log(error);
 
   return (
     <div
@@ -35,16 +53,18 @@ function Projects() {
         >
           Mes Projets
         </h1>
-        <button
-          onClick={() => navigate("/home/create-project")}
-          className="px-4 py-2 text-sm font-medium text-white"
-          style={{
-            backgroundColor: "var(--color-primary)",
-            borderRadius: "var(--radius-card)",
-          }}
-        >
-          + Nouveau
-        </button>
+        {user?.role === "owner" && (
+          <button
+            onClick={() => navigate("/home/create-project")}
+            className="px-4 py-2 text-sm font-medium text-white"
+            style={{
+              backgroundColor: "var(--color-primary)",
+              borderRadius: "var(--radius-card)",
+            }}
+          >
+            + Nouveau
+          </button>
+        )}
       </div>
 
       {isLoading && (

@@ -1,6 +1,6 @@
-const User = require('../models/user');
-const Project = require('../models/Project');
-const Investment = require('../models/Investment');
+const User = require("../models/user");
+const Project = require("../models/Project");
+const Investment = require("../models/Investment");
 
 exports.invest = async (req, res) => {
   const { projectId, amount } = req.body;
@@ -11,20 +11,31 @@ exports.invest = async (req, res) => {
     const investor = await User.findById(investorId);
 
     // 1. Vérifier si le projet est ouvert
-    if (project.status === 'closed') {
-      return res.status(400).json({ message: "Projet fermé aux investissements." });
+    if (project.status === "closed") {
+      return res
+        .status(400)
+        .json({ message: "Projet fermé aux investissements." });
     }
 
     // 2. Vérifier la limite de 50% par investisseur
-    const maxAllowed = project.targetCapital * (project.maxInvestmentPercentage / 100);
+    const maxAllowed =
+      project.targetCapital * (project.maxInvestmentPercentage / 100);
     if (amount > maxAllowed) {
-      return res.status(400).json({ message: `L'investissement dépasse la limite autorisée (${project.maxInvestmentPercentage}%).` });
+      return res
+        .status(400)
+        .json({
+          message: `L'investissement dépasse la limite autorisée (${project.maxInvestmentPercentage}%).`,
+        });
     }
 
     // 3. Vérifier le capital restant
     const remaining = project.targetCapital - project.currentCapital;
     if (amount > remaining) {
-      return res.status(400).json({ message: `Le montant dépasse le capital restant (${remaining}€).` });
+      return res
+        .status(400)
+        .json({
+          message: `Le montant dépasse le capital restant (${remaining}€).`,
+        });
     }
 
     // 4. Vérifier le solde de l'investisseur
@@ -38,18 +49,18 @@ exports.invest = async (req, res) => {
 
     // Fermeture automatique si capital atteint
     if (project.currentCapital >= project.targetCapital) {
-      project.status = 'closed';
+      project.status = "closed";
     }
 
     await project.save();
     await investor.save();
-    
+
     // Créer l'enregistrement de l'investissement
     const investment = await Investment.create({
       project: projectId,
       investor: investorId,
       amount,
-      percentage: (amount / project.targetCapital) * 100
+      percentage: (amount / project.targetCapital) * 100,
     });
 
     res.status(201).json(investment);
@@ -58,12 +69,12 @@ exports.invest = async (req, res) => {
   }
 };
 
-
 // MES INVESTISSEMENTS
 exports.getMyInvestments = async (req, res) => {
   try {
-    const investments = await Investment.find({ investor: req.user.id })
-      .populate('project', 'title targetCapital');
+    const investments = await Investment.find({
+      investor: req.user.id,
+    }).populate("project", "title targetCapital");
     res.json(investments);
   } catch (error) {
     res.status(500).json({ error: error.message });

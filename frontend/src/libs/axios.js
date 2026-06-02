@@ -19,9 +19,8 @@ axiosApi.interceptors.request.use(
 );
 
 axiosApi.interceptors.response.use(
-  (response) => {
-    return response;
-  },
+  (response) => response,
+
   (error) => {
     switch (error.response?.status) {
       case 401:

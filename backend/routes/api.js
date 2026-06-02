@@ -63,12 +63,7 @@ router.put(
   authorize("owner"),
   projectCtrl.updateProject,
 );
-router.delete(
-  "/projects/:id",
-  protect,
-  authorize("owner"),
-  projectCtrl.deleteProject,
-);
+router.delete("/projects/:id", protect, projectCtrl.deleteProject);
 router.patch(
   "/projects/:id/close",
   protect,

@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import axiosApi from "../../libs/axios";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -102,8 +103,23 @@ export const updateProject = createAsyncThunk(
   },
 );
 
+export const getOpenProjects = createAsyncThunk(
+  "projects/getOpenProjects",
+
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await axiosApi.get("/open-projects");
+
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.message || error.message);
+    }
+  },
+);
+
 const initialState = {
   myProjects: [],
+  openProjects: [],
   currentProject: null,
   isLoading: false,
   error: null,
@@ -174,6 +190,19 @@ const projectsSlice = createSlice({
         state.currentProject = action.payload;
       })
       .addCase(updateProject.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
+      .addCase(getOpenProjects.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(getOpenProjects.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.openProjects = action.payload;
+        console.log(action.payload);
+      })
+      .addCase(getOpenProjects.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
       });

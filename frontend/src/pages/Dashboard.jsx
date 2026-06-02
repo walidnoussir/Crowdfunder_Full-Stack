@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getMyProjects } from "../features/projects/projectsSlice";
 
-
 function StatCard({ label, value, valueColor }) {
   return (
     <div
@@ -34,7 +33,7 @@ function StatCard({ label, value, valueColor }) {
 function Dashboard() {
   const dispatch = useDispatch();
   const { myProjects, isLoading, error } = useSelector(
-    (state) => state.projects
+    (state) => state.projects,
   );
 
   useEffect(() => {
@@ -47,7 +46,7 @@ function Dashboard() {
   const fermes = myProjects.filter((p) => p.status === "closed").length;
   const capitalTotal = myProjects.reduce(
     (sum, p) => sum + (p.currentInvestment || p.capitalInvested || 0),
-    0
+    0,
   );
 
   return (
@@ -62,9 +61,17 @@ function Dashboard() {
 
       <div style={{ display: "flex", flexWrap: "wrap", gap: "16px" }}>
         <StatCard label="Total Projets" value={total} />
-        <StatCard label="Projets Ouverts" value={ouverts} valueColor="#22c55e" />
+        <StatCard
+          label="Projets Ouverts"
+          value={ouverts}
+          valueColor="#22c55e"
+        />
         <StatCard label="Projets Fermés" value={fermes} />
-        <StatCard label="capital total levé" value={`${capitalTotal}$`} valueColor="#6366f1" />
+        <StatCard
+          label="capital total levé"
+          value={`${capitalTotal}$`}
+          valueColor="#6366f1"
+        />
       </div>
     </div>
   );

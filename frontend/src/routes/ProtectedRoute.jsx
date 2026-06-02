@@ -6,11 +6,11 @@ function ProtectedRoute({ children, role }) {
   const { user } = useSelector((state) => state.auth);
 
   if (!token) {
-    return <Navigate to="/login" />;
+    return <Navigate to="/" replace />;
   }
 
   if (role && user.role !== role) {
-    return <Navigate to="/login" />;
+    return <Navigate to="/home" />;
   }
 
   return children;

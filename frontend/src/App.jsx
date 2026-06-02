@@ -10,13 +10,28 @@ import CreateProject from "./pages/CreateProject";
 import Profile from "./pages/Profile";
 import ProjectDetail from "./pages/ProjectDetail";
 import UpdateProject from "./pages/UpdateProject";
+import AutrhRedirect from "./routes/AutrhRedirect";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+        <Route
+          path="/"
+          element={
+            <AutrhRedirect>
+              <Login />
+            </AutrhRedirect>
+          }
+        />
+        <Route
+          path="/register"
+          element={
+            <AutrhRedirect>
+              <Register />
+            </AutrhRedirect>
+          }
+        />
         <Route path="*" element={<PageNotFound />} />
 
         <Route>
