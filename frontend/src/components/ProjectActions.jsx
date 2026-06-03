@@ -7,9 +7,11 @@ import { invest } from "../features/projects/investmentSlice";
 
 function ProjectActions({ project }) {
   const { user } = useSelector((state) => state.auth);
+  const { isLoading: isInvesting } = useSelector((state) => state.investment);
   const { id: projectId } = useParams();
+  console.log(isInvesting);
 
-  const [amount, setAmount] = useState();
+  const [amount, setAmount] = useState("");
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -26,9 +28,8 @@ function ProjectActions({ project }) {
 
   const handleInvest = async () => {
     await dispatch(invest({ projectId, amount }));
+    setAmount("");
   };
-
-  console.log(amount);
 
   return (
     <div className="flex items-center gap-4">
@@ -71,7 +72,8 @@ function ProjectActions({ project }) {
           />
           <button
             onClick={handleInvest}
-            className="bg-primary rounded-lg flex-1 py-2 text-sm font-medium text-white"
+            disabled={isInvesting}
+            className="bg-primary rounded-lg flex-1 py-2 text-sm font-medium text-white disabled:cursor-not-allowed"
           >
             Inverster
           </button>

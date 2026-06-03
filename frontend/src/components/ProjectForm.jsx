@@ -13,6 +13,7 @@ function ProjectForm({ submit }) {
     targetAmount: "",
     initialInvestment: "",
     maxInvestorPercentage: 50,
+    targetCapital: "",
   });
 
   const handleChange = (e) => {
@@ -151,6 +152,34 @@ function ProjectForm({ submit }) {
                 type="number"
                 name="initialInvestment"
                 value={formData.initialInvestment}
+                onChange={handleChange}
+                required
+                className="w-full text-sm outline-none bg-transparent"
+                style={{ color: "var(--color-text)" }}
+              />
+              <span style={{ color: "var(--color-text-light)" }}>$</span>
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-1">
+            <label
+              className="text-sm font-medium"
+              style={{ color: "var(--color-text)" }}
+            >
+              Target Capital
+            </label>
+            <div
+              className="flex items-center px-3 py-2 gap-2"
+              style={{
+                border: "1px solid var(--color-border)",
+                borderRadius: "var(--radius-card)",
+                backgroundColor: "var(--color-background)",
+              }}
+            >
+              <input
+                type="number"
+                name="initialInvestment"
+                value={formData.targetCapital}
                 onChange={handleChange}
                 required
                 className="w-full text-sm outline-none bg-transparent"

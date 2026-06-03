@@ -2,8 +2,9 @@ import { useNavigate } from "react-router-dom";
 
 function ProjectCard({ project }) {
   const navigate = useNavigate();
+  console.log(project);
 
-  const percentage = project.targetAmount
+  const percentage = project.currentCapital
     ? Math.min(
         Math.round((project.raisedAmount / project.targetAmount) * 100),
         100,
