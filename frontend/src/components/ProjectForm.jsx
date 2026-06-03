@@ -178,7 +178,7 @@ function ProjectForm({ submit }) {
             >
               <input
                 type="number"
-                name="initialInvestment"
+                name="targetCapital"
                 value={formData.targetCapital}
                 onChange={handleChange}
                 required

@@ -4,9 +4,9 @@ function ProjectCard({ project }) {
   const navigate = useNavigate();
   console.log(project);
 
-  const percentage = project.currentCapital
+  const percentage = project.targetCapital
     ? Math.min(
-        Math.round((project.raisedAmount / project.targetAmount) * 100),
+        Math.round((project.currentCapital / project.targetCapital) * 100),
         100,
       )
     : 0;

@@ -75,7 +75,7 @@ function ProjectActions({ project }) {
             disabled={isInvesting}
             className="bg-primary rounded-lg flex-1 py-2 text-sm font-medium text-white disabled:cursor-not-allowed"
           >
-            Inverster
+            {isInvesting ? "Saving..." : "Invester"}
           </button>
         </div>
       )}
