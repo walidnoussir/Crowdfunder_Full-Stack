@@ -14,8 +14,21 @@ export const invest = createAsyncThunk(
   },
 );
 
+export const getMyInvestments = createAsyncThunk(
+  "/investments/myInvestments",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await axiosApi.get("/my-investments");
+
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.message || error.message);
+    }
+  },
+);
+
 const initialState = {
-  data: [],
+  myInvestments: [],
   isLoading: false,
   error: null,
 };
@@ -28,15 +41,29 @@ const investSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(invest.pending, (state) => {
-        state.loading = true;
+        state.isLoading = true;
         state.error = null;
       })
       .addCase(invest.fulfilled, (state, action) => {
-        state.loading = false;
+        state.isLoading = false;
         state.data = action.payload;
       })
       .addCase(invest.rejected, (state, action) => {
-        state.loading = false;
+        state.isLoading = false;
+        state.error = action.payload;
+      })
+      .addCase(getMyInvestments.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+
+      .addCase(getMyInvestments.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.myInvestments = action.payload;
+      })
+
+      .addCase(getMyInvestments.rejected, (state, action) => {
+        state.isLoading = false;
         state.error = action.payload;
       });
   },

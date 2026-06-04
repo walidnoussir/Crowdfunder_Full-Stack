@@ -11,7 +11,6 @@ import { getMe } from "../features/auth/authSlice";
 
 function Projects() {
   const { user } = useSelector((state) => state.auth);
-  console.log(user);
 
   const { myProjects, openProjects, isLoading, error } = useSelector(
     (state) => state.projects,

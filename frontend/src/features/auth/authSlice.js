@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import axiosApi from "../../libs/axios";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -64,11 +65,27 @@ export const getMe = createAsyncThunk(
   },
 );
 
+export const addBalance = createAsyncThunk(
+  "/balance",
+  async (amount, { rejectWithValue }) => {
+    try {
+      const response = await axiosApi.put("/balance", {
+        amount,
+      });
+
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.message || error.message);
+    }
+  },
+);
+
 const authSlice = createSlice({
   name: "auth",
   initialState: {
     user: null,
     token: localStorage.getItem("token") || null,
+    balance: 0,
     isLoading: false,
     error: null,
   },
@@ -118,6 +135,19 @@ const authSlice = createSlice({
         state.token = null;
         state.isLoading = false;
         localStorage.removeItem("token");
+      })
+      .addCase(addBalance.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(addBalance.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.user = action.payload.user;
+        state.balance = action.payload.currentBalance;
+      })
+      .addCase(addBalance.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
       });
   },
 });

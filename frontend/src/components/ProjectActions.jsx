@@ -9,7 +9,6 @@ function ProjectActions({ project }) {
   const { user } = useSelector((state) => state.auth);
   const { isLoading: isInvesting } = useSelector((state) => state.investment);
   const { id: projectId } = useParams();
-  console.log(isInvesting);
 
   const [amount, setAmount] = useState("");
 
