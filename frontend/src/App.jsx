@@ -16,6 +16,7 @@ import AutrhRedirect from "./routes/AutrhRedirect";
 import Wallet from "./pages/Wallet";
 import Investments from "./pages/Investments";
 import Users from "./pages/Users";
+import UserPortfolio from "./pages/UserPortfolio";
 
 function App() {
   return (
@@ -55,6 +56,14 @@ function App() {
                 element={
                   <ProtectedRoute role="admin">
                     <Users />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="userPorftolio/:id"
+                element={
+                  <ProtectedRoute role="admin">
+                    <UserPortfolio />
                   </ProtectedRoute>
                 }
               />

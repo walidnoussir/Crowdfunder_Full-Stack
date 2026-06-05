@@ -46,15 +46,12 @@ function SideBar() {
             </NavLink>
           )}
 
-          {user?.role === "owner" ||
-            (user?.role === "investor" && (
-              <NavLink to="/home/projects" className="link">
-                <li className="flex items-center gap-2">
-                  <FolderKanban size={20} />
-                  Projects
-                </li>
-              </NavLink>
-            ))}
+          <NavLink to="/home/projects" className="link">
+            <li className="flex items-center gap-2">
+              <FolderKanban size={20} />
+              Projects
+            </li>
+          </NavLink>
 
           {user?.role === "investor" && (
             <NavLink to="/home/wallets" className="link">

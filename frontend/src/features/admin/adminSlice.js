@@ -27,11 +27,25 @@ export const getUsersByRole = createAsyncThunk(
   },
 );
 
+export const getUserPortfolio = createAsyncThunk(
+  "/portfolio",
+  async (id, { rejectWithValue }) => {
+    try {
+      const response = await axiosApi.get(`/admin/portfolio/${id}`);
+
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.message || error.message);
+    }
+  },
+);
+
 const adminSlice = createSlice({
   name: "admin",
   initialState: {
     stats: [],
     users: [],
+    userPortfolio: null,
     isLoading: false,
     error: null,
   },
@@ -63,6 +77,19 @@ const adminSlice = createSlice({
         state.users = action.payload;
       })
       .addCase(getUsersByRole.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
+      .addCase(getUserPortfolio.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(getUserPortfolio.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.error = null;
+        state.userPortfolio = action.payload;
+      })
+      .addCase(getUserPortfolio.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
       });

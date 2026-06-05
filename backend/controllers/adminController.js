@@ -43,7 +43,7 @@ exports.getUserPortfolio = async (req, res) => {
         "project",
       );
       return res.json({ user, investments: invs });
-    } else {
+    } else if (user.role === "owner") {
       const projs = await Project.find({ owner: userId });
       return res.json({ user, projects: projs });
     }

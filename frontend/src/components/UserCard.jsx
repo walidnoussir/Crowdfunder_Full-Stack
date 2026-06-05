@@ -1,7 +1,8 @@
 import { User, Mail, Wallet, Shield } from "lucide-react";
+import { Link } from "react-router-dom";
 
 function UserCard({ user }) {
-  const isOwner = user.role === "owner";
+  //   const isOwner = user.role === "owner";
 
   const roleColors = {
     owner: { background: "#eef2ff", color: "var(--color-primary)" },
@@ -21,78 +22,80 @@ function UserCard({ user }) {
   ];
 
   return (
-    <div
-      className="w-full p-6 shadow-sm hover:shadow-md transition-all duration-300"
-      style={{
-        backgroundColor: "var(--color-surface)",
-        borderRadius: "var(--radius-card)",
-        border: "1px solid var(--color-border)",
-      }}
-    >
-      {/* Avatar + header */}
-      <div className="flex flex-col items-center mb-6">
-        <div
-          className="w-16 h-16 rounded-full flex items-center justify-center text-2xl font-bold mb-3"
-          style={{
-            backgroundColor:
-              roleColors[user.role]?.background || "var(--color-background)",
-            color: roleColors[user.role]?.color || "var(--color-text)",
-          }}
-        >
-          {user.name[0].toUpperCase()}
-        </div>
-
-        <h2
-          className="text-lg font-semibold"
-          style={{ color: "var(--color-text)" }}
-        >
-          {user.name}
-        </h2>
-
-        <span
-          className="mt-2 text-xs font-medium px-3 py-1 rounded-full capitalize"
-          style={{
-            backgroundColor:
-              roleColors[user.role]?.background || "var(--color-border)",
-            color: roleColors[user.role]?.color || "var(--color-text-light)",
-          }}
-        >
-          {user.role}
-        </span>
-      </div>
-
-      {/* Info rows (same style as Profile page) */}
-      <div className="space-y-3">
-        {infos.map(({ icon, label, value }) => (
+    <Link to={`/home/userPorftolio/${user._id}`}>
+      <div
+        className="w-full cursor-pointer p-6 shadow-sm hover:shadow-md transition-all duration-300"
+        style={{
+          backgroundColor: "var(--color-surface)",
+          borderRadius: "var(--radius-card)",
+          border: "1px solid var(--color-border)",
+        }}
+      >
+        {/* Avatar + header */}
+        <div className="flex flex-col items-center mb-6">
           <div
-            key={label}
-            className="flex items-center gap-4 px-4 py-3"
+            className="w-16 h-16 rounded-full flex items-center justify-center text-2xl font-bold mb-3"
             style={{
-              backgroundColor: "var(--color-background)",
-              borderRadius: "var(--radius-card)",
-              border: "1px solid var(--color-border)",
+              backgroundColor:
+                roleColors[user.role]?.background || "var(--color-background)",
+              color: roleColors[user.role]?.color || "var(--color-text)",
             }}
           >
-            <span style={{ color: "var(--color-primary)" }}>{icon}</span>
-
-            <div>
-              <p
-                className="text-xs font-medium"
-                style={{ color: "var(--color-text-light)" }}
-              >
-                {label}
-              </p>
-              <p
-                className="text-sm font-semibold"
-                style={{ color: "var(--color-text)" }}
-              >
-                {value}
-              </p>
-            </div>
+            {user.name[0].toUpperCase()}
           </div>
-        ))}
+
+          <h2
+            className="text-lg font-semibold"
+            style={{ color: "var(--color-text)" }}
+          >
+            {user.name}
+          </h2>
+
+          <span
+            className="mt-2 text-xs font-medium px-3 py-1 rounded-full capitalize"
+            style={{
+              backgroundColor:
+                roleColors[user.role]?.background || "var(--color-border)",
+              color: roleColors[user.role]?.color || "var(--color-text-light)",
+            }}
+          >
+            {user.role}
+          </span>
+        </div>
+
+        {/* Info rows (same style as Profile page) */}
+        <div className="space-y-3">
+          {infos.map(({ icon, label, value }) => (
+            <div
+              key={label}
+              className="flex items-center gap-4 px-4 py-3"
+              style={{
+                backgroundColor: "var(--color-background)",
+                borderRadius: "var(--radius-card)",
+                border: "1px solid var(--color-border)",
+              }}
+            >
+              <span style={{ color: "var(--color-primary)" }}>{icon}</span>
+
+              <div>
+                <p
+                  className="text-xs font-medium"
+                  style={{ color: "var(--color-text-light)" }}
+                >
+                  {label}
+                </p>
+                <p
+                  className="text-sm font-semibold"
+                  style={{ color: "var(--color-text)" }}
+                >
+                  {value}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
-    </div>
+    </Link>
   );
 }
 
