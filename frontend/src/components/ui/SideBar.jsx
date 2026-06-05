@@ -2,10 +2,12 @@ import { NavLink, useNavigate } from "react-router-dom";
 import Logo from "./Logo";
 import {
   CalendarPlus,
+  CircleDollarSign,
   FolderKanban,
   House,
   LogOut,
   UserRound,
+  Users,
   Wallet,
 } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
@@ -35,18 +37,39 @@ function SideBar() {
             </li>
           </NavLink>
 
-          <NavLink to="/home/projects" className="link">
-            <li className="flex items-center gap-2">
-              <FolderKanban size={20} />
-              Projects
-            </li>
-          </NavLink>
+          {user?.role === "admin" && (
+            <NavLink to="/home/users" end className="link">
+              <li className="flex items-center gap-2">
+                <Users size={20} />
+                Users
+              </li>
+            </NavLink>
+          )}
+
+          {user?.role === "owner" ||
+            (user?.role === "investor" && (
+              <NavLink to="/home/projects" className="link">
+                <li className="flex items-center gap-2">
+                  <FolderKanban size={20} />
+                  Projects
+                </li>
+              </NavLink>
+            ))}
 
           {user?.role === "investor" && (
             <NavLink to="/home/wallets" className="link">
               <li className="flex items-center gap-2">
                 <Wallet size={20} />
                 Wallet
+              </li>
+            </NavLink>
+          )}
+
+          {user?.role === "investor" && (
+            <NavLink to="/home/investments" className="link">
+              <li className="flex items-center gap-2">
+                <CircleDollarSign size={20} />
+                Investments
               </li>
             </NavLink>
           )}

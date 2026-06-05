@@ -14,6 +14,8 @@ import ProjectDetail from "./pages/ProjectDetail";
 import UpdateProject from "./pages/UpdateProject";
 import AutrhRedirect from "./routes/AutrhRedirect";
 import Wallet from "./pages/Wallet";
+import Investments from "./pages/Investments";
+import Users from "./pages/Users";
 
 function App() {
   return (
@@ -48,12 +50,28 @@ function App() {
               }
             >
               <Route index element={<Dashboard />} />
+              <Route
+                path="users"
+                element={
+                  <ProtectedRoute role="admin">
+                    <Users />
+                  </ProtectedRoute>
+                }
+              />
               <Route path="projects" element={<Projects />} />
               <Route
                 path="wallets"
                 element={
                   <ProtectedRoute role="investor">
                     <Wallet />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="investments"
+                element={
+                  <ProtectedRoute role="investor">
+                    <Investments />
                   </ProtectedRoute>
                 }
               />
@@ -74,7 +92,7 @@ function App() {
       </BrowserRouter>
 
       <Toaster
-        position="top-right"
+        position="top-center"
         reverseOrder={false}
         toastOptions={{
           style: {

@@ -4,10 +4,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { getMe } from "../features/auth/authSlice";
 import { useEffect, useState } from "react";
 import { invest } from "../features/projects/investmentSlice";
+import toast from "react-hot-toast";
 
 function ProjectActions({ project }) {
   const { user } = useSelector((state) => state.auth);
-  const { isLoading: isInvesting } = useSelector((state) => state.investment);
+  const { isLoading: isInvesting, error } = useSelector(
+    (state) => state.investment,
+  );
   const { id: projectId } = useParams();
 
   const [amount, setAmount] = useState("");
@@ -26,8 +29,28 @@ function ProjectActions({ project }) {
   };
 
   const handleInvest = async () => {
-    await dispatch(invest({ projectId, amount }));
-    setAmount("");
+    if (!amount || Number(amount) <= 0) {
+      return toast.error("Please enter a valid amount");
+    }
+
+    const resultAction = await dispatch(
+      invest({
+        projectId,
+        amount,
+      }),
+    );
+
+    if (invest.fulfilled.match(resultAction)) {
+      toast.success("Investment created successfully");
+      setAmount("");
+    } else {
+      toast.error(
+        error ||
+          resultAction.payload?.message ||
+          resultAction.error?.message ||
+          "Failed to invest",
+      );
+    }
   };
 
   return (

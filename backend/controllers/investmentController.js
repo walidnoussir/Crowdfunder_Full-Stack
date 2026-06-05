@@ -140,7 +140,7 @@ exports.getMyInvestments = async (req, res) => {
   try {
     const investments = await Investment.find({
       investor: req.user.id,
-    }).populate("project", "title targetCapital");
+    }).populate("project", "title targetCapital currentCapital");
     res.json(investments);
   } catch (error) {
     res.status(500).json({ error: error.message });
