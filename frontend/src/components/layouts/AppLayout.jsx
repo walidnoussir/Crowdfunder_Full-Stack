@@ -3,9 +3,9 @@ import SideBar from "../ui/SideBar";
 
 function AppLayout() {
   return (
-    <div className="flex overflow-hidden">
+    <div className="h-screen flex overflow-y-hidden">
       <SideBar />
-      <main className="flex-1 overflow-y-auto">
+      <main className="w-full overflow-y-scroll">
         <Outlet />
       </main>
     </div>
